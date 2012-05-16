@@ -13,7 +13,7 @@ public class MainFrame extends JFrame {
 	
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+		setTitle("AisVirtualNet");
 		
 		
 	}
