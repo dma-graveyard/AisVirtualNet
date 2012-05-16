@@ -1,9 +1,9 @@
 package dk.dma.aisvirtualnet;
 
-import java.awt.Frame;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import dk.dma.aisvirtualnet.gui.MainFrame;
 
 public class AisVirtualNet {
 
@@ -25,7 +25,7 @@ public class AisVirtualNet {
         JFrame.setDefaultLookAndFeelDecorated(true);
         
         // Create and set up the main window        
-		Frame mainFrame = new Frame();
+		MainFrame mainFrame = new MainFrame();
 		mainFrame.setVisible(true);
 	}
 
