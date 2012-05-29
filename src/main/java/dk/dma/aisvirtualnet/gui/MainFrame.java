@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 
+import dk.dma.aisvirtualnet.AisVirtualNet;
+
 public class MainFrame extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
@@ -20,7 +22,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	public MainFrame() {
 		super();
-		setSize(new Dimension(500, 600));
+		setSize(new Dimension(500, 700));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setTitle("AisVirtualNet");
 		setLocationRelativeTo(null);
@@ -39,8 +41,8 @@ public class MainFrame extends JFrame implements ActionListener {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
-						.addComponent(sourcesPanel, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+						.addComponent(transponderPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+						.addComponent(sourcesPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
 						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addComponent(btnApply)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -50,9 +52,9 @@ public class MainFrame extends JFrame implements ActionListener {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(sourcesPanel, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
+					.addComponent(sourcesPanel, GroupLayout.PREFERRED_SIZE, 232, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+					.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnExit)
@@ -67,11 +69,15 @@ public class MainFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnExit) {
-			System.exit(0);
+			AisVirtualNet.closeApp();			
 		}
 		else if (e.getSource() == btnApply) {
 			// TODO Apply changes
 		}
 		
+	}
+	
+	public void loadComponents() {
+		sourcesPanel.loadComponents();
 	}
 }

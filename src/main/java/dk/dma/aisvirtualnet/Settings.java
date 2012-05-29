@@ -94,5 +94,5 @@ public class Settings {
 		String val = props.getProperty(key, defaultValue);
 		return Integer.parseInt(val);
 	}
-
+	
 }

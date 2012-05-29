@@ -69,5 +69,13 @@ public class SourceReader implements IAisHandler {
 	public void setDownsamplingRate(int downSampleRate) {
 		downSampleFilter.setSamplingRate(downSampleRate);
 	}
+	
+	public List<AisReader> getReaders() {
+		return readers;
+	}
+	
+	public void removeReader(int i) {
+		readers.remove(i);
+	}
 
 }
