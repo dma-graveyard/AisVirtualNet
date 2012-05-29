@@ -2,6 +2,7 @@ package dk.dma.aisvirtualnet.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.acl.Owner;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -28,6 +29,7 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 	private JLabel lblPort;
 	private JLabel lblMmsi;
 	private JButton btnAddDelete;
+	private JComboBox owmMsgIntervalcomboBox;
 	
 	public SingleTransponderPanel() {
 		this(null);
@@ -53,18 +55,21 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 		mmsiTextField = new JTextField();
 		mmsiTextField.setColumns(10);
 		mmsiTextField.setText(mmsi);
+		mmsiTextField.setEnabled(create);
 		
 		lblPort = new JLabel("Port");
 		
 		portTextField = new JTextField();
 		portTextField.setColumns(10);
 		portTextField.setText(port);
+		portTextField.setEnabled(create);
 		
 		lblOwmMsgInterval = new JLabel("Owm msg interval");
 		
-		JComboBox owmMsgIntervalcomboBox = new JComboBox();
+		owmMsgIntervalcomboBox = new JComboBox();
 		owmMsgIntervalcomboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "5", "10"}));
 		owmMsgIntervalcomboBox.setSelectedItem(omi);
+		owmMsgIntervalcomboBox.setEnabled(create);
 		
 		lblStatus = new JLabel();
 		ImageIcon statusIcon = new ImageIcon(AisVirtualNet.class.getResource("/images/status/UNKNOWN.png"));
@@ -118,8 +123,14 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getSource() == btnAddDelete) {
+			if (transponder != null) {
+				AisVirtualNet.getTransponders().remove(transponder);
+				this.setVisible(false);
+			} else {
+				AisVirtualNet.addTransponder(mmsiTextField.getText(), portTextField.getText(), (String)owmMsgIntervalcomboBox.getSelectedItem());
+			}
+		}
 	}
 
 	public void updateStatus() {

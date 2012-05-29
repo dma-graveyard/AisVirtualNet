@@ -134,4 +134,13 @@ public class AisVirtualNet {
 		mainFrame.loadComponents();
 	}
 
+	public static void addTransponder(String mmsi, String port, String omi) {
+		Transponder transponder = new Transponder(aisNetwork);
+		transponder.setMmsi(Long.parseLong(mmsi));
+		transponder.setTcpPort(Integer.parseInt(port));
+		transponder.setForceOwnInterval(Integer.parseInt(omi));
+		transponders.add(transponder);
+		mainFrame.loadComponents();
+	}
+
 }
