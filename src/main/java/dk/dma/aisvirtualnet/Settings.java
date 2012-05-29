@@ -71,7 +71,7 @@ public class Settings {
 		for (String tcpSourceName : StringUtils.split(tcpSourcesStr, ",")) {
 			AisTcpReader aisTcpReader = new AisTcpReader();
 			aisTcpReader.setHostname(props.getProperty("tcp_source_host." + tcpSourceName, "localhost"));
-			aisTcpReader.setPort(getInt("tcp_source." + tcpSourceName, "4001"));
+			aisTcpReader.setPort(getInt("tcp_source_port." + tcpSourceName, "4001"));
 			LOG.info("Adding TCP source " + tcpSourceName + " " + aisTcpReader.getHostname() + ":" + aisTcpReader.getPort());
 			AisVirtualNet.getSourceReader().addReader(aisTcpReader);
 		}

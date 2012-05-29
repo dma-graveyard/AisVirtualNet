@@ -1,15 +1,15 @@
 package dk.dma.aisvirtualnet.gui;
 
+import java.awt.Component;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import dk.dma.aisvirtualnet.AisVirtualNet;
 import dk.frv.ais.reader.AisReader;
-import dk.frv.ais.reader.AisSerialReader;
-import dk.frv.ais.reader.AisTcpReader;
 
-public class SourcesPanel extends JPanel {
+public class SourcesPanel extends JPanel implements Runnable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -17,7 +17,9 @@ public class SourcesPanel extends JPanel {
 		super();
 		setAlignmentX(0.0f);
 		setBorder(new TitledBorder(null, "Sources", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));		
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		(new Thread(this)).start();
 	}
 	
 	public void loadComponents() {
@@ -26,27 +28,8 @@ public class SourcesPanel extends JPanel {
 		
 		// Go through all source readers
 		for (int i = 0; i < AisVirtualNet.getSourceReader().getReaders().size(); i++) {
-			AisReader aisReader = AisVirtualNet.getSourceReader().getReaders().get(i);
-			
-			String type = null;
-			String hostname = "N/A";
-			String port = null;
-			if (aisReader instanceof AisTcpReader) {
-				AisTcpReader aisTcpReader = (AisTcpReader)aisReader;
-				type =  "TCP";
-				hostname = aisTcpReader.getHostname();
-				port = Integer.toString(aisTcpReader.getPort());
-			}
-			else if (aisReader instanceof AisSerialReader) {
-				AisSerialReader aisSerialReader = (AisSerialReader)aisReader;
-				type = "SERIAL";
-				port = aisSerialReader.getPortName();
-			}
-			
-			if (type == null) {
-				continue;
-			}
-			SingleSourcePanel panel = new SingleSourcePanel(i, type, hostname, port); 
+			AisReader aisReader = AisVirtualNet.getSourceReader().getReaders().get(i);			
+			SingleSourcePanel panel = new SingleSourcePanel(aisReader); 
 			add(panel);
 		}
 		
@@ -55,5 +38,20 @@ public class SourcesPanel extends JPanel {
 		
 		revalidate();
 		AisVirtualNet.getMainFrame().repaint();		
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			AisVirtualNet.sleep(2000);
+			for (Component component : getComponents()) {
+				if (component instanceof SingleSourcePanel) {
+					SingleSourcePanel panel = (SingleSourcePanel)component;
+					panel.updateStatus();
+				}
+			}			
+		}
+		
+		
 	}
 }

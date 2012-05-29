@@ -79,5 +79,6 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	public void loadComponents() {
 		sourcesPanel.loadComponents();
+		transponderPanel.loadComponents();
 	}
 }

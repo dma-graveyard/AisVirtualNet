@@ -59,6 +59,16 @@ public class AisVirtualNet {
 		sourceReader.setAisNetwork(aisNetwork);
 		sourceReader.start();
 
+		// Start transponders
+		for (Transponder transponder : transponders) {
+			transponder.start();
+		}
+
+		// Maintenaince loop
+		while (true) {
+			sleep(10000);
+		}
+
 	}
 
 	public static void closeApp() {
@@ -103,13 +113,13 @@ public class AisVirtualNet {
 	public static List<Transponder> getTransponders() {
 		return transponders;
 	}
-	
+
 	public static Settings getSettings() {
 		return settings;
 	}
 
 	public static void addReader(String type, String hostname, String port) {
-		AisReader reader;		
+		AisReader reader;
 		if (type.equals("TCP")) {
 			AisTcpReader aisTcpReader = new AisTcpReader();
 			aisTcpReader.setHostname(hostname);
@@ -119,10 +129,9 @@ public class AisVirtualNet {
 			AisSerialReader serialReader = new AisSerialReader();
 			serialReader.setPortName(port);
 			reader = serialReader;
-		}		
+		}
 		getSourceReader().addReader(reader);
 		mainFrame.loadComponents();
 	}
-	
 
 }

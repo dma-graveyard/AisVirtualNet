@@ -3,39 +3,64 @@ package dk.dma.aisvirtualnet.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import dk.dma.aisvirtualnet.AisVirtualNet;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import dk.frv.ais.reader.AisReader;
+import dk.frv.ais.reader.AisReader.Status;
+import dk.frv.ais.reader.AisSerialReader;
+import dk.frv.ais.reader.AisTcpReader;
 
 public class SingleSourcePanel extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private JTextField hostTextField;
 	private JTextField portTextField;
-	private int id;
 	private JButton btnAddDelete;
 	private JComboBox typeComboBox;
+	private AisReader aisReader;
+	private JLabel lblS;
 	
 	public SingleSourcePanel() {
-		this(-1, "TCP", "", "");
+		this(null);
 	}
 	
-	public SingleSourcePanel(int i, String type, String hostname, String port) {
+	public SingleSourcePanel(AisReader aisReader) {
 		super();
+		this.aisReader = aisReader;
+				
+		String type = "TCP";
+		String hostname = "";
+		String port = "";
+		
+		if (aisReader != null) {
+			if (aisReader instanceof AisTcpReader) {
+				AisTcpReader aisTcpReader = (AisTcpReader)aisReader;
+				type =  "TCP";
+				hostname = aisTcpReader.getHostname();
+				port = Integer.toString(aisTcpReader.getPort());
+			}
+			else {
+				AisSerialReader aisSerialReader = (AisSerialReader)aisReader;
+				type = "SERIAL";
+				port = aisSerialReader.getPortName();
+				hostname = "N/A";
+			}
+		}
+		boolean create = (aisReader == null);
+
+		
 		setAlignmentY(0.0f);
 		setAlignmentX(0.0f);
-		this.id = i;
-		
-		boolean create = (i < 0);
 		
 		JLabel lblType = new JLabel("Type");
 		
@@ -57,8 +82,8 @@ public class SingleSourcePanel extends JPanel implements ActionListener {
 		btnAddDelete = new JButton(create ? "Add" : "Delete");
 		btnAddDelete.addActionListener(this);
 		
-		JLabel lblS = new JLabel();
-		ImageIcon statusIcon = new ImageIcon(AisVirtualNet.class.getResource("/images/status/ERROR.png"));
+		lblS = new JLabel();
+		ImageIcon statusIcon = new ImageIcon(AisVirtualNet.class.getResource("/images/status/UNKNOWN.png"));
 		lblS.setIcon(statusIcon);
 		lblS.setVisible(!create);
 		
@@ -114,12 +139,22 @@ public class SingleSourcePanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAddDelete) {
-			if (id >= 0) {
-				AisVirtualNet.getSourceReader().removeReader(id);
+			if (aisReader != null) {
+				AisVirtualNet.getSourceReader().removeReader(aisReader);
 				this.setVisible(false);
 			} else {
 				AisVirtualNet.addReader((String)typeComboBox.getSelectedItem(), hostTextField.getText(), portTextField.getText());
 			}
+		}
+		
+	}
+
+	public void updateStatus() {
+		if (aisReader == null) return;
+		if (aisReader.getStatus() == Status.CONNECTED) {
+			lblS.setIcon(new ImageIcon(AisVirtualNet.class.getResource("/images/status/OK.png")));
+		} else {
+			lblS.setIcon(new ImageIcon(AisVirtualNet.class.getResource("/images/status/ERROR.png")));
 		}
 		
 	}

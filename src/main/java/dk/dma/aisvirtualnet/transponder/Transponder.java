@@ -60,6 +60,7 @@ public class Transponder extends Thread implements IAisHandler {
 		}
 		// Wait for connection
 		while (true) {
+			out = null;
 			try {
 				LOG.info("Transponder listening on port " + tcpPort);
 				clientSocket = serverSocket.accept();
@@ -274,6 +275,14 @@ public class Transponder extends Thread implements IAisHandler {
 
 	public void setForceOwnInterval(int forceOwnInterval) {
 		ownMessage.setForceInterval(forceOwnInterval);
+	}
+	
+	public int getForceOwnInterval() {
+		return ownMessage.getForceInterval();
+	}
+	
+	public boolean isConnected() {
+		return (out != null);
 	}
 
 }

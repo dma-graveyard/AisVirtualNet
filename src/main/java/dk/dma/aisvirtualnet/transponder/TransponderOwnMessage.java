@@ -73,5 +73,9 @@ public class TransponderOwnMessage extends Thread {
 	public void setForceInterval(int forceInterval) {
 		this.forceInterval = forceInterval;
 	}
+	
+	public int getForceInterval() {
+		return forceInterval;
+	}
 
 }

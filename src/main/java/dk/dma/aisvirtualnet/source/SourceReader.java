@@ -74,8 +74,8 @@ public class SourceReader implements IAisHandler {
 		return readers;
 	}
 	
-	public void removeReader(int i) {
-		readers.remove(i);
+	public void removeReader(AisReader aisReader) {
+		readers.remove(aisReader);
 	}
 
 }
