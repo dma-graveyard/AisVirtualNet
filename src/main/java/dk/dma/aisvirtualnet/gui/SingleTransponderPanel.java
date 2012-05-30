@@ -2,7 +2,6 @@ package dk.dma.aisvirtualnet.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.acl.Owner;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -125,7 +124,7 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAddDelete) {
 			if (transponder != null) {
-				AisVirtualNet.getTransponders().remove(transponder);
+				AisVirtualNet.removeTransponder(transponder);
 				this.setVisible(false);
 			} else {
 				AisVirtualNet.addTransponder(mmsiTextField.getText(), portTextField.getText(), (String)owmMsgIntervalcomboBox.getSelectedItem());

@@ -276,13 +276,31 @@ public class Transponder extends Thread implements IAisHandler {
 	public void setForceOwnInterval(int forceOwnInterval) {
 		ownMessage.setForceInterval(forceOwnInterval);
 	}
-	
+
 	public int getForceOwnInterval() {
 		return ownMessage.getForceInterval();
 	}
-	
+
 	public boolean isConnected() {
 		return (out != null);
+	}
+
+	public void stopThread() {
+		aisNetwork.removeListener(this);
+		// Stop own message
+		ownMessage.interrupt();
+
+		// Stop this thread
+		try {			
+			if (clientSocket != null) {
+				clientSocket.close();
+			}
+			if (serverSocket != null) {
+				serverSocket.close();
+			}
+		} catch (IOException e) {
+			LOG.info("Closing transponder sockets failed");
+		}
 	}
 
 }

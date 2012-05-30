@@ -95,4 +95,8 @@ public class Settings {
 		return Integer.parseInt(val);
 	}
 	
+	public void save() {
+		// TODO
+	}
+	
 }

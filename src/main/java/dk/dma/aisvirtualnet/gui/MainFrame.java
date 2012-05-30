@@ -18,7 +18,6 @@ public class MainFrame extends JFrame implements ActionListener {
 	private SourcesPanel sourcesPanel;
 	private TranspondersPanel transponderPanel;
 	private JButton btnExit;
-	private JButton btnApply;
 
 	public MainFrame() {
 		super();
@@ -32,21 +31,16 @@ public class MainFrame extends JFrame implements ActionListener {
 		transponderPanel = new TranspondersPanel();		
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(this);
-		btnApply = new JButton("Apply");
-		btnApply.addActionListener(this);
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(transponderPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-						.addComponent(sourcesPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addComponent(btnApply)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnExit)))
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+						.addComponent(sourcesPanel, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+						.addComponent(btnExit))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -56,9 +50,7 @@ public class MainFrame extends JFrame implements ActionListener {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnExit)
-						.addComponent(btnApply))
+					.addComponent(btnExit)
 					.addContainerGap())
 		);
 		groupLayout.setAutoCreateGaps(true);
@@ -71,14 +63,11 @@ public class MainFrame extends JFrame implements ActionListener {
 		if (e.getSource() == btnExit) {
 			AisVirtualNet.closeApp();			
 		}
-		else if (e.getSource() == btnApply) {
-			// TODO Apply changes
-		}
-		
 	}
 	
 	public void loadComponents() {
 		sourcesPanel.loadComponents();
 		transponderPanel.loadComponents();
 	}
+	
 }

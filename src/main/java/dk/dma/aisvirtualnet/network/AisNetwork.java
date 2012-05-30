@@ -51,5 +51,14 @@ public class AisNetwork {
 	synchronized public void addListener(IAisHandler listener) {
 		listeners.add(listener);
 	}
+	
+	/**
+	 * Remove listener
+	 * 
+	 * @param listener
+	 */
+	synchronized public void removeListener(IAisHandler listener) {
+		listeners.remove(listener);
+	}
 
 }

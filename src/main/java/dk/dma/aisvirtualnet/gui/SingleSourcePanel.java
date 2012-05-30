@@ -140,8 +140,9 @@ public class SingleSourcePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAddDelete) {
 			if (aisReader != null) {
-				AisVirtualNet.getSourceReader().removeReader(aisReader);
+				AisVirtualNet.removeReader(aisReader);
 				this.setVisible(false);
+				
 			} else {
 				AisVirtualNet.addReader((String)typeComboBox.getSelectedItem(), hostTextField.getText(), portTextField.getText());
 			}

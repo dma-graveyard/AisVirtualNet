@@ -26,7 +26,8 @@ public class AisVirtualNet {
 	private static AisNetwork aisNetwork = new AisNetwork();
 	private static SourceReader sourceReader = new SourceReader();
 	private static List<Transponder> transponders = new ArrayList<Transponder>();
-	private static Settings settings = new Settings();
+	private static Settings settings;
+	private static String settingsFile;
 
 	/**
 	 * @param args
@@ -35,6 +36,12 @@ public class AisVirtualNet {
 		DOMConfigurator.configure("log4j.xml");
 		LOG = Logger.getLogger(AisVirtualNet.class);
 		LOG.info("Starting AisVirtualNet");
+		
+		settingsFile = "aisvirtualnet.properties";
+		if (args.length > 0) {
+			settingsFile = args[0];
+		}
+		loadSettings();
 
 		// Create and show GUI
 		SwingUtilities.invokeLater(new Runnable() {
@@ -43,18 +50,16 @@ public class AisVirtualNet {
 			}
 		});
 
-		// Load configuration
-		String settingsFile = "aisvirtualnet.properties";
-		if (args.length > 0) {
-			settingsFile = args[0];
-		}
-		try {
-			settings.load(settingsFile);
-		} catch (IOException e) {
-			LOG.error("Failed to load settings: " + e.getMessage());
-			System.exit(-1);
+		startNetwork();
+		
+		// Maintenaince loop
+		while (true) {
+			sleep(10000);
 		}
 
+	}
+	
+	public static void startNetwork() {
 		// Start reading from sources
 		sourceReader.setAisNetwork(aisNetwork);
 		sourceReader.start();
@@ -63,12 +68,34 @@ public class AisVirtualNet {
 		for (Transponder transponder : transponders) {
 			transponder.start();
 		}
-
-		// Maintenaince loop
-		while (true) {
-			sleep(10000);
+	}
+	
+	public static void stopNetwork() {
+		// Stop sources
+		sourceReader.stop();
+		
+		// Stop transponders
+		for (Transponder transponder : transponders) {
+			transponder.stopThread();
 		}
-
+		
+		sleep(1000);
+		
+		// Clear all
+		aisNetwork = new AisNetwork();
+		sourceReader = new SourceReader();
+		transponders.clear();
+	}
+	
+	public static void loadSettings() {
+		// Load configuration
+		settings = new Settings();		
+		try {
+			settings.load(settingsFile);
+		} catch (IOException e) {
+			LOG.error("Failed to load settings: " + e.getMessage());
+			System.exit(-1);
+		}
 	}
 
 	public static void closeApp() {
@@ -89,17 +116,39 @@ public class AisVirtualNet {
 		mainFrame = new MainFrame();
 		mainFrame.loadComponents();
 	}
+	
+	public static void saveSettings() {
+		settings.save();
+	}
+	
+	public static void applyChanges() {
+		// Save settings
+		saveSettings();
+		
+		// Stop network
+		stopNetwork();
+		
+		// Load settings
+		loadSettings();
+		
+		// Start network
+		startNetwork();		
+		
+		mainFrame.loadComponents();		
+	}
+
 
 	public static MainFrame getMainFrame() {
 		return mainFrame;
 	}
 
-	public static void sleep(long ms) {
+	public static boolean sleep(long ms) {
 		try {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
-			LOG.error("Sleep failed: " + e.getMessage());
+			return false;
 		}
+		return true;
 	}
 
 	public static AisNetwork getAisNetwork() {
@@ -131,7 +180,9 @@ public class AisVirtualNet {
 			reader = serialReader;
 		}
 		getSourceReader().addReader(reader);
+		reader.start();
 		mainFrame.loadComponents();
+		saveSettings();
 	}
 
 	public static void addTransponder(String mmsi, String port, String omi) {
@@ -140,7 +191,23 @@ public class AisVirtualNet {
 		transponder.setTcpPort(Integer.parseInt(port));
 		transponder.setForceOwnInterval(Integer.parseInt(omi));
 		transponders.add(transponder);
+		transponder.start();
 		mainFrame.loadComponents();
+		saveSettings();
 	}
+
+	public static void removeTransponder(Transponder transponder) {
+		transponder.stopThread();
+		transponders.remove(transponder);
+		saveSettings();
+	}
+	
+	public static void removeReader(AisReader aisReader) {
+		aisReader.stopReader();
+		sourceReader.removeReader(aisReader);
+		saveSettings();
+	}
+	
+
 
 }

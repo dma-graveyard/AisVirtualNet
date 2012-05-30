@@ -77,5 +77,13 @@ public class SourceReader implements IAisHandler {
 	public void removeReader(AisReader aisReader) {
 		readers.remove(aisReader);
 	}
+	
+	public void stop() {
+		// Stop readers
+		for (AisReader reader : readers) {
+			reader.stopReader();
+			
+		}
+	}
 
 }

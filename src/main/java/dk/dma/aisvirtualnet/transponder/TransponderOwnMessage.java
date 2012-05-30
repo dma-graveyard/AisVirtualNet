@@ -30,7 +30,9 @@ public class TransponderOwnMessage extends Thread {
 		}
 
 		// Wait for everything to start up
-		AisVirtualNet.sleep(5000);
+		if (!AisVirtualNet.sleep(5000)) {
+			return;
+		}
 
 		// Enter re-send loop
 		while (true) {
