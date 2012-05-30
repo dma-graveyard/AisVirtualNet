@@ -15,14 +15,18 @@
  */
 package dk.dma.aisvirtualnet;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import dk.dma.aisvirtualnet.transponder.Transponder;
+import dk.frv.ais.reader.AisReader;
 import dk.frv.ais.reader.AisSerialReader;
 import dk.frv.ais.reader.AisTcpReader;
 
@@ -34,11 +38,66 @@ public class Settings {
 	private static final Logger LOG = Logger.getLogger(Settings.class);
 
 	private Properties props;
+	private String filename;
 
 	public Settings() {
 	}
+	
+	public void save() {
+		int count;
+		Properties saveProps = new Properties();
+		Map<String, AisSerialReader> serialSources = new HashMap<String, AisSerialReader>(); 
+		Map<String, AisTcpReader> tcpSources = new HashMap<String, AisTcpReader>();
+		Map<String, Transponder> transponders = new HashMap<String, Transponder>();
+				
+		count = 0;
+		for (Transponder transponder : AisVirtualNet.getTransponders()) {
+			transponders.put("TRANS" + (count++), transponder);
+		}
+		
+		count = 0;
+		for (AisReader aisReader : AisVirtualNet.getSourceReader().getReaders()) {
+			String name = "SOURCE" + (count++);
+			if (aisReader instanceof AisTcpReader) {
+				tcpSources.put(name, (AisTcpReader)aisReader);
+			} else {
+				serialSources.put(name, (AisSerialReader)aisReader);
+			}
+		}
+		
+		saveProps.put("serial_sources", StringUtils.join(serialSources.keySet(), ","));
+		for (String name : serialSources.keySet()) {
+			AisSerialReader aisSerialReader = serialSources.get(name);
+			saveProps.put("serial_port." + name, aisSerialReader.getPortName());			
+		}
+		
+		saveProps.put("tcp_sources", StringUtils.join(tcpSources.keySet(), ","));
+		for (String name : tcpSources.keySet()) {
+			AisTcpReader aisTcpReader = tcpSources.get(name);
+			saveProps.put("tcp_source_host." + name, aisTcpReader.getHostname());
+			saveProps.put("tcp_source_port." + name, Integer.toString(aisTcpReader.getPort()));
+		}
+		
+		saveProps.put("transponders", StringUtils.join(transponders.keySet(), ","));
+		for (String name : transponders.keySet()) {
+			Transponder transponder = transponders.get(name);
+			saveProps.put("transponder_mmsi." + name, Long.toString(transponder.getMmsi()));
+			saveProps.put("transponder_tcp_port." + name, Integer.toString(transponder.getTcpPort()));
+			saveProps.put("transponder_own_message_force." + name, Integer.toString(transponder.getForceOwnInterval()));			
+		}
+				
+		try {
+			FileWriter outFile = new FileWriter(filename);
+			saveProps.store(outFile, "AisVirtualNet settings");
+			outFile.close();
+		} catch (IOException e) {
+			LOG.error("Failed to save settings: " + e.getMessage());
+		}		
+	}
+
 
 	public void load(String filename) throws IOException {
+		this.filename = filename;
 		props = new Properties();
 		URL url = ClassLoader.getSystemResource(filename);
 		if (url == null) {
@@ -94,9 +153,5 @@ public class Settings {
 		String val = props.getProperty(key, defaultValue);
 		return Integer.parseInt(val);
 	}
-	
-	public void save() {
-		// TODO
-	}
-	
+		
 }
