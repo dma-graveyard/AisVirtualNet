@@ -12,6 +12,14 @@ interval as copies of the last own message.
 
 * Java 1.6+ (http://www.java.com/)
 
+## Installation and running ##
+
+The application does not have to be installed. Download the zip file
+
+https://github.com/DaMSA/AisVirtualNet/raw/master/aisvirtualnet.zip
+
+unpack at any location and run the BAT file.
+
 ## Sources ##
 
 Sources can either be TCP or serial. Using TCP sources is recommended as serial sources 
