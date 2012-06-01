@@ -22,7 +22,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	public MainFrame() {
 		super();
 		setSize(new Dimension(500, 700));
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("AisVirtualNet");
 		setLocationRelativeTo(null);
 		setVisible(true);

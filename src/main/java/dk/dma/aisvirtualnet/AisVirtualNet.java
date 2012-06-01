@@ -93,8 +93,7 @@ public class AisVirtualNet {
 		try {
 			settings.load(settingsFile);
 		} catch (IOException e) {
-			LOG.error("Failed to load settings: " + e.getMessage());
-			System.exit(-1);
+			LOG.info("Failed to load settings: " + e.getMessage());
 		}
 	}
 
