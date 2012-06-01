@@ -21,13 +21,14 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	public MainFrame() {
 		super();
-		setSize(new Dimension(500, 700));
+		setSize(new Dimension(500, 535));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("AisVirtualNet");
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
 		sourcesPanel = new SourcesPanel();
+		sourcesPanel.setAlignmentY(0.0f);
 		transponderPanel = new TranspondersPanel();		
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(this);
@@ -35,10 +36,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+						.addComponent(transponderPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
 						.addComponent(sourcesPanel, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
 						.addComponent(btnExit))
 					.addContainerGap())
@@ -46,9 +47,9 @@ public class MainFrame extends JFrame implements ActionListener {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(sourcesPanel, GroupLayout.PREFERRED_SIZE, 232, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+					.addComponent(sourcesPanel, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(transponderPanel, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnExit)
 					.addContainerGap())

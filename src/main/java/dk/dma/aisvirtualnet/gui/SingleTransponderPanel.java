@@ -24,11 +24,11 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 	private JTextField mmsiTextField;
 	private JTextField portTextField;
 	private JLabel lblStatus;
-	private JLabel lblOwmMsgInterval;
+	private JLabel lblOwnMsgInterval;
 	private JLabel lblPort;
 	private JLabel lblMmsi;
 	private JButton btnAddDelete;
-	private JComboBox owmMsgIntervalcomboBox;
+	private JComboBox ownMsgIntervalcomboBox;
 	
 	public SingleTransponderPanel() {
 		this(null);
@@ -63,12 +63,12 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 		portTextField.setText(port);
 		portTextField.setEnabled(create);
 		
-		lblOwmMsgInterval = new JLabel("Owm msg interval");
+		lblOwnMsgInterval = new JLabel("Own msg interval");
 		
-		owmMsgIntervalcomboBox = new JComboBox();
-		owmMsgIntervalcomboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "5", "10"}));
-		owmMsgIntervalcomboBox.setSelectedItem(omi);
-		owmMsgIntervalcomboBox.setEnabled(create);
+		ownMsgIntervalcomboBox = new JComboBox();
+		ownMsgIntervalcomboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "5", "10"}));
+		ownMsgIntervalcomboBox.setSelectedItem(omi);
+		ownMsgIntervalcomboBox.setEnabled(create);
 		
 		lblStatus = new JLabel();
 		ImageIcon statusIcon = new ImageIcon(AisVirtualNet.class.getResource("/images/status/UNKNOWN.png"));
@@ -93,9 +93,9 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(portTextField, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblOwmMsgInterval)
+					.addComponent(lblOwnMsgInterval)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(owmMsgIntervalcomboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(ownMsgIntervalcomboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(lblStatus)
 					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
@@ -110,8 +110,8 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 						.addComponent(mmsiTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblPort)
 						.addComponent(portTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblOwmMsgInterval)
-						.addComponent(owmMsgIntervalcomboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblOwnMsgInterval)
+						.addComponent(ownMsgIntervalcomboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAddDelete)
 						.addComponent(lblStatus))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -127,7 +127,7 @@ public class SingleTransponderPanel extends JPanel implements ActionListener {
 				AisVirtualNet.removeTransponder(transponder);
 				this.setVisible(false);
 			} else {
-				AisVirtualNet.addTransponder(mmsiTextField.getText(), portTextField.getText(), (String)owmMsgIntervalcomboBox.getSelectedItem());
+				AisVirtualNet.addTransponder(mmsiTextField.getText(), portTextField.getText(), (String)ownMsgIntervalcomboBox.getSelectedItem());
 			}
 		}
 	}

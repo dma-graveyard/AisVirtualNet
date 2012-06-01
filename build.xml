@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="aisvirtualnet" default="zip">
+
+	<property name="distdir" value="${basedir}/dist" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.classes.dir" value="${build.dir}/classes" />
+	<property name="build.final.name" value="${ant.project.name}.jar" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="src.main.dir" value="${src.dir}/main" />
+	<property name="src.main.java.dir" value="${src.main.dir}/java" />
+
+	<path id="compile.class.path">
+		<fileset dir="lib/" >
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${distdir}" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.classes.dir}" />
+	</target>
+
+
+	<target name="compile" depends="init">
+		<javac destdir="${build.classes.dir}" debug="on" encoding="UTF-8" includeantruntime="false">
+			<compilerarg value="-Xlint" />
+			<includesfile />
+			<classpath refid="compile.class.path" />
+			<src path="${src.main.java.dir}" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar file="${build.dir}/${build.final.name}">
+			<fileset dir="${build.classes.dir}" />
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="dk.dma.aisvirtualnet.AisVirtualNet" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="zip" depends="jar">
+		<delete dir="${distdir}" />
+		<mkdir dir="${distdir}" />
+		<mkdir dir="${distdir}/aisvirtualnet" />
+		<copy todir="${distdir}/aisvirtualnet" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="*.properties"/>
+				<include name="log4j.xml"/>
+				<include name="aisvirtualnet.bat"/>
+				<include name="lib/"/>
+				<include name="images/"/>
+			</fileset>
+		</copy>
+		<copy todir="${distdir}/aisvirtualnet" overwrite="true" file="${build.dir}/${build.final.name}"/>
+		<zip destfile="aisvirtualnet.zip" basedir="${distdir}"/>
+	</target>
+
+</project>
