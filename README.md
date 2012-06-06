@@ -16,7 +16,7 @@ all computers and equipment on the same LAN without firewall restrictions.
 ## Prerequisites ##
 
 * Java 1.6+ (http://www.java.com/)
-* An AIS source
+* At least one AIS source
 * At least one AIS client like an ECDIS or the open source [ee-INS](https://github.com/DaMSA/ee-INS)
 
 ## Installation and running ##
@@ -57,10 +57,14 @@ two virtual transponders.
 
 For the client to connect to the virtual transponder, the IP address of the machine running 
 AisVirtualNet is needed. When the address is known the client can be configured to use address/port
-for the virtual transponder. The figure below shows an example where the IP is 10.3.240.46 and the
-port 10001 from the previous example is used.
+for the virtual transponder. The figure below shows an example from the ee-INS setup where the 
+IP is 10.3.240.46 and the port 10001 from the previous example is used.
 
 ![Setup](https://github.com/DaMSA/AisVirtualNet/raw/master/doc/Setup.png)
 
+## ee-INS note ## 
 
-
+If the AIS source contains a lot of targets, it could give a big load on the client.
+Furthermore will ship based equipment only be able to receive messages from vessels in the 
+vicinity. To simulate this go to: Setup -> Sensor and set "AIS sensor range" to e.g. 40 
+(nautical miles). 
