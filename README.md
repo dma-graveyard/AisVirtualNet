@@ -48,19 +48,19 @@ the sources. Otherwise no own messages will be generated.
 The diagram below gives an illustration of an example setup. AisVirtualNet could be run on any computer
 that is reachable by all the clients.
 
-![Diagram](https://github.com/exploid/songster/raw/master/images/me-sidebyside.gif) 
+![Diagram](https://github.com/DaMSA/AisVirtualNet/raw/master/doc/Diagram.png) 
 
 The figure below shows an example of a configuration of AisVirtualNet with a single AIS source and 
 two virtual transponders.
 
-![Example](https://github.com/exploid/songster/raw/master/images/me-sidebyside.gif)
+![Example](https://github.com/DaMSA/AisVirtualNet/raw/master/doc/Example.png)
 
 For the client to connect to the virtual transponder, the IP address of the machine running 
 AisVirtualNet is needed. When the address is known the client can be configured to use address/port
 for the virtual transponder. The figure below shows an example where the IP is 10.3.240.46 and the
 port 10001 from the previous example is used.
 
-![Setup](https://github.com/exploid/songster/raw/master/images/me-sidebyside.gif)
+![Setup](https://github.com/DaMSA/AisVirtualNet/raw/master/doc/Setup.png)
 
 
 
