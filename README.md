@@ -62,7 +62,7 @@ IP is 10.3.240.46 and the port 10001 from the previous example is used.
 
 ![Setup](https://github.com/DaMSA/AisVirtualNet/raw/master/doc/Setup.png)
 
-## ee-INS note ## 
+## ee-INS note ##
 
 If the AIS source contains a lot of targets, it could give a big load on the client.
 Furthermore will ship based equipment only be able to receive messages from vessels in the 
