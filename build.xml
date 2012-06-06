@@ -52,6 +52,7 @@
 				<include name="*.properties"/>
 				<include name="log4j.xml"/>
 				<include name="aisvirtualnet.bat"/>
+				<include name="aisvirtualnet.sh"/>
 				<include name="lib/"/>
 				<include name="images/"/>
 			</fileset>
