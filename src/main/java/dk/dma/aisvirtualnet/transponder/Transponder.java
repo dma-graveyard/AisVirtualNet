@@ -291,7 +291,7 @@ public class Transponder extends Thread implements IAisHandler {
 		ownMessage.interrupt();
 
 		// Stop this thread
-		try {			
+		try {
 			if (clientSocket != null) {
 				clientSocket.close();
 			}
